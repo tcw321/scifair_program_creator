@@ -1,3 +1,7 @@
+#
+# script used for Science Fair 2011 using mongodb
+#
+
 import win32com.client
 import pymongo
 
