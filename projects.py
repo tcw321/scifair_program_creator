@@ -37,6 +37,10 @@ class TestEntriesClass(unittest.TestCase):
         project = self.entries.find({"Teacher" : "Denise"})
         self.assertEqual(project, [["DeniseProject", ['D. Dump']], ["DeniseProject2", ['D. Dail', 'E. Elbert']]])
 
+    def testFindOneStudent(self):
+        project = self.entries.find({"Teacher": "Chad"})
+        self.assertEqual(project, [['ChadProject', ['C. Cod']]])
+    
         
 if __name__ == '__main__':
     unittest.main()
