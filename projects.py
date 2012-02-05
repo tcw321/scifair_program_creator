@@ -13,12 +13,18 @@ class Entries(object):
                 resultIndexes.append(i)
         results = []
         for i in resultIndexes:
-            names = []
-            names.append(self.values['Student Name'][i])
-            secondName = self.values['Second Student Name'][i]
-            if secondName != '':
-                names.append(secondName)
-            results.append([self.values['Project Name'][i], names])
+            project = {}
+            names = self.values['Student Name'][i]
+            first_name, last_name = names.split()
+            second_name = self.values['Second Student Name'][i].split()
+            if (len(second_name) > 0):
+              first_name1, last_name1 = self.values['Second Student Name'][i].split()
+              project['first_name1'] = first_name1
+              project['last_name1'] = last_name1
+            project['title'] = self.values['Project Name'][i]
+            project['first_name'] = first_name
+            project['last_name'] = last_name
+            results.append(project)
         return results
 
 
@@ -35,11 +41,11 @@ class TestEntriesClass(unittest.TestCase):
 
     def testFind(self):
         project = self.entries.find({"Teacher" : "Denise"})
-        self.assertEqual(project, [["DeniseProject", ['D. Dump']], ["DeniseProject2", ['D. Dail', 'E. Elbert']]])
+        self.assertEqual(project, [{'title':"DeniseProject", 'first_name':'D.', 'last_name':'Dump'}, {'title':"DeniseProject2", 'first_name':'D.', 'last_name':'Dail', 'first_name1':'E.','last_name1':'Elbert'}])
 
     def testFindOneStudent(self):
         project = self.entries.find({"Teacher": "Chad"})
-        self.assertEqual(project, [['ChadProject', ['C. Cod']]])
+        self.assertEqual(project, [{'title':'ChadProject', 'first_name':'C.', 'last_name':'Cod'}])
     
         
 if __name__ == '__main__':
