@@ -54,6 +54,38 @@ class Entries(object):
                 project = self.getOtherStudents(project, i, '2', 'Third Student Name')
                 project = self.getOtherStudents(project, i, '3', 'Fourth Student Name')
                 self.results.append(project)        
+        names = self.values['Third Teacher Name']
+        resultIndexes = []
+        for i in range(len(names)):
+            if names[i] == name:
+                resultIndexes.append(i)
+        for i in resultIndexes:
+            title = self.values['Project Name'][i]
+            if title not in titles:
+                project = {}
+                project['title'] = title
+                titles.append(title)
+                project = self.getOtherStudents(project, i, '2', 'Second Student Name')
+                project = self.getOtherStudents(project, i, '1', 'Student Name')
+                project = self.getOtherStudents(project, i, '', 'Third Student Name')
+                project = self.getOtherStudents(project, i, '3', 'Fourth Student Name')
+                self.results.append(project)        
+        names = self.values['Fourth Teacher Name']
+        resultIndexes = []
+        for i in range(len(names)):
+            if names[i] == name:
+                resultIndexes.append(i)
+        for i in resultIndexes:
+            title = self.values['Project Name'][i]
+            if title not in titles:
+                project = {}
+                project['title'] = title
+                titles.append(title)
+                project = self.getOtherStudents(project, i, '3', 'Second Student Name')
+                project = self.getOtherStudents(project, i, '1', 'Student Name')
+                project = self.getOtherStudents(project, i, '2', 'Third Student Name')
+                project = self.getOtherStudents(project, i, '', 'Fourth Student Name')
+                self.results.append(project)        
         return self.results
 
 class TestEntriesClass(unittest.TestCase):
@@ -101,6 +133,44 @@ class TestEntriesClass(unittest.TestCase):
         self.assertEqual(project, [{'title':'TraceyProject', 'first_name':'Howard', 'last_name':'Hughes'},
         {'title':'DeniseProject', 'first_name':'Tracey', 'last_name':'Zicker','first_name2':'Tracey', 'last_name2':'Ann',
          'first_name3':'Tracey', 'last_name3':'Cird', 'first_name1':'D.', 'last_name1':'Dump'}])
+
+class TestEntriesClassOneProject(unittest.TestCase):
+    def testhookup(self):
+        self.assertEqual(0,0)
+
+    entries = Entries()
+    def setUp(self):
+        self.entries.values = {'Teacher': ['Chad'],
+                               'Project Name': ['ChadProject'],
+                               'Student Name': ['C. Cod'],
+                               'Second Student Name': ['Tracey Zicker'],
+                               'Second Teacher Name':['Mike'],
+                               'Third Student Name': ['Henry Snot'],
+                               'Third Teacher Name':['Tracey'],                               
+                               'Fourth Student Name': ['Timmy Toon'],
+                               'Fourth Teacher Name':['Bette']}                               
+
+    def tearDown(self):
+        entries = Entries()
+
+    def testFirstTeacher(self):
+        project = self.entries.find({"Teacher":'Chad'})
+        self.assertEqual(project, [{'title':'ChadProject', 'first_name':'C.', 'last_name':'Cod', 'first_name1':'Tracey', 'last_name1':'Zicker',
+                                    'first_name2':'Henry', 'last_name2':'Snot', 'first_name3':'Timmy', 'last_name3':'Toon'}])
+    def testSecondTeacher(self):
+        project = self.entries.find({"Teacher":'Mike'})
+        self.assertEqual(project, [{'title':'ChadProject', 'first_name1':'C.', 'last_name1':'Cod', 'first_name':'Tracey', 'last_name':'Zicker',
+                                    'first_name2':'Henry', 'last_name2':'Snot', 'first_name3':'Timmy', 'last_name3':'Toon'}])
+
+    def testThirdTeacher(self):
+        project = self.entries.find({"Teacher":'Tracey'})
+        self.assertEqual(project, [{'title':'ChadProject', 'first_name1':'C.', 'last_name1':'Cod', 'first_name2':'Tracey', 'last_name2':'Zicker',
+                                    'first_name':'Henry', 'last_name':'Snot', 'first_name3':'Timmy', 'last_name3':'Toon'}])
+
+    def testFourthTeacher(self):
+        project = self.entries.find({"Teacher":'Bette'})
+        self.assertEqual(project, [{'title':'ChadProject', 'first_name1':'C.', 'last_name1':'Cod', 'first_name3':'Tracey', 'last_name3':'Zicker',
+                                    'first_name2':'Henry', 'last_name2':'Snot', 'first_name':'Timmy', 'last_name':'Toon'}])        
 
 if __name__ == '__main__':
     unittest.main()
