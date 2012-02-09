@@ -15,6 +15,7 @@ class Entries(object):
     def getOtherStudents(self, project, index, suffix, key):
         names = self.values[key][index]
         if (len(names) > 0):
+	    print names
             first_name, last_name = names.split()
             project['first_name'+suffix] = first_name
             project['last_name'+suffix] = last_name

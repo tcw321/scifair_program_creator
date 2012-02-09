@@ -3,14 +3,8 @@
 #
 
 import win32com.client
-import pymongo
-
-from pymongo import Connection
-connection = Connection()
-
-db = connection.science_fair
-entries = db.entries
-
+from projects import Entries
+from read_csv import read_csv
 
 wordapp = win32com.client.Dispatch("Word.Application") # Create new Word Object
 wordapp.Visible = 1 # Word Application should`t be visible
@@ -45,14 +39,16 @@ teachers = [["Heidi", "Hargesheimer", "(K)", "  Turquoise"],
             ["Peter", "Ways", "(7-8)", "  Purple"],
             ["Mary", "Wigton", "(7-8)", "  Purple"]]
 
+entries = Entries()
+entries.values = read_csv("Ann Arbor Open Science Fair Entry Form - Sheet1 (4).csv")
 
 for teacher in teachers:
         location = worddoc.Range()
 	location.Paragraphs.Add()
         location.Collapse(0)
-        projects = entries.find({ "teacher": teacher[0]});
-        projects.sort("last_name", pymongo.ASCENDING)
-        table = location.Tables.Add (location, projects.count()+1,2)
+        projects = entries.find({ "Teacher": teacher[0]});
+#        projects.sort("last_name", pymongo.ASCENDING)
+        table = location.Tables.Add (location, len(projects)+1,2)
         table.Rows(1).HeadingFormat = True
 #        table.AutoFormat(16)
 	table.Rows.AllowBreakAcrossPages = False
