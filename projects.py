@@ -16,9 +16,16 @@ class Entries(object):
         names = self.values[key][index]
         if (len(names) > 0):
 	    print names
-            first_name, last_name = names.split()
-            project['first_name'+suffix] = first_name
-            project['last_name'+suffix] = last_name
+            full_name = names.split(' ')
+            print 'full_name', full_name
+            project['first_name'+suffix] = ' '.join(full_name[0:-1])
+            print 'first_name', ' '.join(full_name[0:-1])
+            print 'last_name', full_name[-1]
+            if '*' in full_name[-1]:
+                full_name = full_name[-1].split('*')
+                project['last_name'+suffix] = ' '.join(full_name)
+            else:
+                project['last_name'+suffix] = full_name[-1]
         return project
     
     def find(self, key_value):
@@ -172,6 +179,32 @@ class TestEntriesClassOneProject(unittest.TestCase):
         project = self.entries.find({"Teacher":'Bette'})
         self.assertEqual(project, [{'title':'ChadProject', 'first_name1':'C.', 'last_name1':'Cod', 'first_name3':'Tracey', 'last_name3':'Zicker',
                                     'first_name2':'Henry', 'last_name2':'Snot', 'first_name':'Timmy', 'last_name':'Toon'}])        
+
+
+class TestStudentWithTwoWordsForALastName(unittest.TestCase):
+    def testhookup(self):
+        self.assertEqual(0,0)
+
+    entries = Entries()
+    def setUp(self):
+        self.entries.values = {'Teacher': ['Chad'],
+                               'Project Name': ['ChadProject'],
+                               'Student Name': ['Charlie Pete Henry*Cod'],
+                               'Second Student Name': [''],
+                               'Second Teacher Name':[''],
+                               'Third Student Name': [''],
+                               'Third Teacher Name':[''],                               
+                               'Fourth Student Name': [''],
+                               'Fourth Teacher Name':['']}          
+
+    def tearDown(self):
+        entries = Entries()
+
+    def testStudentName(self):
+        project = self.entries.find({"Teacher":'Chad'})
+        self.assertEqual(project, [{'title':'ChadProject', 'first_name':'Charlie Pete', 'last_name':'Henry Cod'}])
+
+
 
 if __name__ == '__main__':
     unittest.main()
