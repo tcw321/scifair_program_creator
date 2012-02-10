@@ -40,14 +40,15 @@ teachers = [["Heidi", "Hargesheimer", "(K)", "  Turquoise"],
             ["Mary", "Wigton", "(7-8)", "  Purple"]]
 
 entries = Entries()
-entries.values = read_csv("Ann Arbor Open Science Fair Entry Form - Sheet1 (4).csv")
+entries.values = read_csv("Ann Arbor Open Science Fair Entry Form - Sheet1 (5).csv")
 
 for teacher in teachers:
         location = worddoc.Range()
 	location.Paragraphs.Add()
         location.Collapse(0)
         projects = entries.find({ "Teacher": teacher[0]});
-#        projects.sort("last_name", pymongo.ASCENDING)
+	if 'last_name' in projects[0]:
+           projects = sorted(projects, key=lambda k: k['last_name'])
         table = location.Tables.Add (location, len(projects)+1,2)
         table.Rows(1).HeadingFormat = True
 #        table.AutoFormat(16)

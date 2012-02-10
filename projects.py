@@ -15,12 +15,8 @@ class Entries(object):
     def getOtherStudents(self, project, index, suffix, key):
         names = self.values[key][index]
         if (len(names) > 0):
-	    print names
             full_name = names.split(' ')
-            print 'full_name', full_name
             project['first_name'+suffix] = ' '.join(full_name[0:-1])
-            print 'first_name', ' '.join(full_name[0:-1])
-            print 'last_name', full_name[-1]
             if '*' in full_name[-1]:
                 full_name = full_name[-1].split('*')
                 project['last_name'+suffix] = ' '.join(full_name)
