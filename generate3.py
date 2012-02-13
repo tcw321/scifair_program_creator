@@ -19,21 +19,22 @@ worddoc.Content.Font.Size = 8
 worddoc.Content.Font.Name = "Comic Sans MS"
 worddoc.Content.Paragraphs.WidowControl = True
 
-teachers = [["Heidi", "Hargesheimer", "(K)", "  Turquoise"],
-            ["Maggi", "Idzikowski", "(1-2)", "  Blue with Pink Dots"],
+teachers = [["Heidi", "Hargesheimer", "(K)", "  Pink with Green Swirls"],
+	    ["Char", "Hanchak", "(K)", "  Pink"],
+            ["Maggi", "Idzikowski", "(K)", "  Yellow with Stripes"],
             ["Tyra", "Johnston", "(1-2)", "  Orange"],
             ["Edie", "Linton", "(1-2)", "  Red"],
-            ["Jamie", "Martin", "(1-2)", "  Pink with Green Swirls"],
+            ["Jamie", "Martin", "(1-2)", "  Turquoise"],
             ["Tracey", "Metry", "(1-2)", "  Green"],
-            ["Josh", "Tumolo", "(1-2)", "  Yellow"],
+            ["Josh", "Tumolo", "(2-3)", "  Yellow"],
             ["Denise", "Chacon-Lontin", "(3-4)", "  Red with Orange Stars"],
-            ["Carl", "Clark", "(3-4)", "  Navy Blue"],
-            ["Bette", "Diem", "(3-4)", "  Brown"],
+            ["Carl", "Clark", "(3-4)", "  Green"],
+            ["Bette", "Gobeille-Diem", "(3-4)", "  Brown"],
             ["Chad", "Downs", "(3-4)", "  Hot Pink"],
             ["Mike", "Derhammer", "(5-6)", "  Tan with Blue Dots"],
             ["Rick", "Hall", "(5-6)", "  Blue with Purple Dots"],
             ["Leslie", "Lawther", "(5-6)", "  Gold with Red Dots"],
-            ["Ko", "Shih", "(5-6)", "  Yellow with Stripes"],
+            ["Ko", "Shih", "(5-6)", "  Blue with Pink Dots"],
             ["Aina", "Bernier", "(7-8)", "  Purple"],
             ["Adam", "Samples", "(7-8)", "  Purple"],
             ["Peter", "Ways", "(7-8)", "  Purple"],
@@ -42,6 +43,7 @@ teachers = [["Heidi", "Hargesheimer", "(K)", "  Turquoise"],
 entries = Entries()
 entries.values = read_csv("Ann Arbor Open Science Fair Entry Form - Sheet1 (5).csv")
 
+count = 0
 for teacher in teachers:
         location = worddoc.Range()
 	location.Paragraphs.Add()
@@ -60,6 +62,7 @@ for teacher in teachers:
 	table.Cell(1,1).Range.Font.Size = 10
         row = 1
         for entry in projects:
+            count += 1
             row += 1
 	    table.Cell(row,1).LeftPadding = 16
 	    if row%2 == 0:
@@ -79,6 +82,7 @@ for teacher in teachers:
 	    table.Cell(row,2).Range.Paragraphs.SpaceAfter = 0
 
 
+print "count ", count
 worddoc.Content.MoveEnd
 worddoc.Close() # Close the Word Document (a save-Dialog pops up)
 wordapp.Quit() # Close the Word Applicati
