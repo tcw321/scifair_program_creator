@@ -64,22 +64,22 @@ for teacher in teachers:
         for entry in projects:  ##########
             count += 1
             row += 1
-	    table.Cell(row,1).LeftPadding = 16
-	    if row%2 == 0:
-	        table.Rows(row).Shading.BackgroundPatternColorIndex = 16    
-            name = entry["first_name"]+" "+entry["last_name"]    #########
-            if "first_name1" in entry:
+	        table.Cell(row,1).LeftPadding = 16
+	        if row%2 == 0:
+	          table.Rows(row).Shading.BackgroundPatternColorIndex = 16
+              name = entry["first_name"]+" "+entry["last_name"]    #########
+              if "first_name1" in entry:
                 name += "\n" + entry["first_name1"]+" "+entry["last_name1"]
-            if "first_name2" in entry:
+              if "first_name2" in entry:
                 name += "\n" + entry["first_name2"]+" "+entry["last_name2"]
-            if "first_name3" in entry:
+              if "first_name3" in entry:
                 name += "\n" + entry["first_name3"]+" "+entry["last_name3"]
-            table.Cell(row,1).Range.InsertAfter(name)
-	    table.Cell(row,1).Range.Paragraphs.SpaceAfter = 0
-	    table.Cell(row,1).TopPadding = 2
-	    table.Cell(row,1).BottomPadding = 2
-        table.Cell(row,2).Range.InsertAfter(entry["title"])
-	    table.Cell(row,2).Range.Paragraphs.SpaceAfter = 0
+              table.Cell(row,1).Range.InsertAfter(name)
+	        table.Cell(row,1).Range.Paragraphs.SpaceAfter = 0
+	        table.Cell(row,1).TopPadding = 2
+	        table.Cell(row,1).BottomPadding = 2
+            table.Cell(row,2).Range.InsertAfter(entry["title"])
+	        table.Cell(row,2).Range.Paragraphs.SpaceAfter = 0
 
 
 print "count ", count
