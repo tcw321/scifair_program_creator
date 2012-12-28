@@ -30,9 +30,10 @@ class Entries2:
         return listByTeacher
 
 
-    def find(self, key_value):
+    def find(self, teacher_name):
         listByTeacher = self._processData()
-        return listByTeacher[key_value]
+        projects = sorted(listByTeacher[teacher_name], key=lambda k: k['last_name'])  #*****
+        return projects
 
 
 class TestEntriesClass(unittest.TestCase):
@@ -44,9 +45,18 @@ class TestEntriesClass(unittest.TestCase):
         entries.data = ["12/1/2012 20:39:32,Comet,Wright,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Wright,Diane,,,,,,",
                 "12/1/2012 20:39:32,Billy,Bob,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Gotts,Diane,,,,,,"]
         teacher = entries.find('Heidi')
-        self.assertEqual(teacher[0]['last_name'], 'Wright' )
+        self.assertEqual(teacher[0]['last_name'], 'Bob' )
         self.assertEqual(teacher[0]['first_name1'], 'Peaches' )
         self.assertEqual(teacher[0]['title'], 'How much is too much?')
         self.assertFalse(teacher[0].has_key('first_name2'))
 
+    def testProjectOrderByLastName(self):
+        entries = Entries2()
+        entries.data = ["12/1/2012 20:39:32,Comet,Wright,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Wright,Diane,,,,,,",
+                        "12/1/2012 20:39:32,Billy,Bob,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Gotts,Diane,,,,,,"]
+        teacher = entries.find('Heidi')
+        self.assertEqual(teacher[0]['last_name'], 'Bob' )
+        self.assertEqual(teacher[0]['first_name1'], 'Peaches' )
+        self.assertEqual(teacher[0]['title'], 'How much is too much?')
+        self.assertFalse(teacher[0].has_key('first_name2'))
 
