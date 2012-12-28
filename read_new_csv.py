@@ -14,13 +14,14 @@ class Entries2:
             entity['title'] = splitData[4]
             entity['first_name'] = splitData[1]
             entity['last_name'] = splitData[2]
-            if (splitData[9] >= 2):
+            number_of_students = int(splitData[9])
+            if (number_of_students > 1):
                 entity['first_name1'] = splitData[10]
                 entity['last_name1'] = splitData[11]
-            if (splitData[9] >= 3):
+            if (number_of_students > 2):
                 entity['last_name2'] = splitData[14]
                 entity['first_name2'] = splitData[13]
-            if (splitData[9] ==4):
+            if (number_of_students == 4):
                 entity['first_name3'] = splitData[16]
                 entity['last_name3'] = splitData[17]
             if listByTeacher.has_key(splitData[3]) == False:
@@ -38,14 +39,14 @@ class TestEntriesClass(unittest.TestCase):
     def testhookup(self):
         self.assertEqual(0,0)
 
-    def testreadData(self):
+    def testReadData(self):
         entries = Entries2()
         entries.data = ["12/1/2012 20:39:32,Comet,Wright,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Wright,Diane,,,,,,",
                 "12/1/2012 20:39:32,Billy,Bob,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Gotts,Diane,,,,,,"]
         teacher = entries.find('Heidi')
-        print teacher
         self.assertEqual(teacher[0]['last_name'], 'Wright' )
         self.assertEqual(teacher[0]['first_name1'], 'Peaches' )
         self.assertEqual(teacher[0]['title'], 'How much is too much?')
+        self.assertFalse(teacher[0].has_key('first_name2'))
 
 
