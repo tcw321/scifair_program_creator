@@ -50,13 +50,15 @@ class TestEntriesClass(unittest.TestCase):
         self.assertEqual(teacher[0]['title'], 'How much is too much?')
         self.assertFalse(teacher[0].has_key('first_name2'))
 
-    def testProjectOrderByLastName(self):
+    def testProjectWithFourStudents(self):
         entries = Entries2()
-        entries.data = ["12/1/2012 20:39:32,Comet,Wright,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Wright,Diane,,,,,,",
-                        "12/1/2012 20:39:32,Billy,Bob,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Gotts,Diane,,,,,,"]
+        entries.data = ["12/1/2012 20:39:32,Comet,Wright,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Wright,Heidi,AF,BL,Heidi,CF,DL,Heidi",
+                        "12/1/2012 20:39:32,Billy,Bob,Heidi,How much is too much?,Yes,,Karen,karen,2,Midnight,Gotts,Diane,EF,FL,Heidi,GF,HL,Heidi"]
         teacher = entries.find('Heidi')
         self.assertEqual(teacher[0]['last_name'], 'Bob' )
         self.assertEqual(teacher[0]['first_name1'], 'Peaches' )
-        self.assertEqual(teacher[0]['title'], 'How much is too much?')
+        self.assertEqual(teacher[0]['first_name1'], 'Peaches' )
+
+    self.assertEqual(teacher[0]['title'], 'How much is too much?')
         self.assertFalse(teacher[0].has_key('first_name2'))
 
