@@ -54,7 +54,7 @@ for teacher in teachers:
         table = location.Tables.Add (location, len(projects)+1,2)
         table.Rows(1).HeadingFormat = True
 #        table.AutoFormat(16)
-	    table.Rows.AllowBreakAcrossPages = False
+        table.Rows.AllowBreakAcrossPages = False
         title = ' '.join(teacher)
         table.Rows(1).Cells.Merge()
         table.Cell(1,1).Range.InsertAfter(title)
