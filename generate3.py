@@ -46,10 +46,10 @@ entries.values = read_csv("Ann Arbor Open Science Fair Entry Form - Sheet1 (5).c
 count = 0
 for teacher in teachers:
         location = worddoc.Range()
-	    location.Paragraphs.Add()
+        location.Paragraphs.Add()
         location.Collapse(0)
         projects = entries.find({ "Teacher": teacher[0]})   ######
-	    if 'last_name' in projects[0]:
+        if 'last_name' in projects[0]:
           projects = sorted(projects, key=lambda k: k['last_name'])  #*****
         table = location.Tables.Add (location, len(projects)+1,2)
         table.Rows(1).HeadingFormat = True
@@ -58,15 +58,15 @@ for teacher in teachers:
         title = ' '.join(teacher)
         table.Rows(1).Cells.Merge()
         table.Cell(1,1).Range.InsertAfter(title)
-	    table.Cell(1,1).Range.Font.Bold = True
-	    table.Cell(1,1).Range.Font.Size = 10
+        table.Cell(1,1).Range.Font.Bold = True
+        table.Cell(1,1).Range.Font.Size = 10
         row = 1
         for entry in projects:  ##########
             count += 1
             row += 1
-	        table.Cell(row,1).LeftPadding = 16
-	        if row%2 == 0:
-	          table.Rows(row).Shading.BackgroundPatternColorIndex = 16
+            table.Cell(row,1).LeftPadding = 16
+            if row%2 == 0:
+              table.Rows(row).Shading.BackgroundPatternColorIndex = 16
               name = entry["first_name"]+" "+entry["last_name"]    #########
               if "first_name1" in entry:
                 name += "\n" + entry["first_name1"]+" "+entry["last_name1"]
@@ -75,11 +75,11 @@ for teacher in teachers:
               if "first_name3" in entry:
                 name += "\n" + entry["first_name3"]+" "+entry["last_name3"]
               table.Cell(row,1).Range.InsertAfter(name)
-	        table.Cell(row,1).Range.Paragraphs.SpaceAfter = 0
-	        table.Cell(row,1).TopPadding = 2
-	        table.Cell(row,1).BottomPadding = 2
+            table.Cell(row,1).Range.Paragraphs.SpaceAfter = 0
+            table.Cell(row,1).TopPadding = 2
+            table.Cell(row,1).BottomPadding = 2
             table.Cell(row,2).Range.InsertAfter(entry["title"])
-	        table.Cell(row,2).Range.Paragraphs.SpaceAfter = 0
+            table.Cell(row,2).Range.Paragraphs.SpaceAfter = 0
 
 
 print "count ", count

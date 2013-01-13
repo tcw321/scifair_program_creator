@@ -56,9 +56,9 @@ class TestEntriesClass(unittest.TestCase):
                         "12/1/2012 20:39:32,Billy,Bob,Heidi,How much is too much?,Yes,,Karen,karen,2,Midnight,Gotts,Diane,EF,FL,Heidi,GF,HL,Heidi"]
         teacher = entries.find('Heidi')
         self.assertEqual(teacher[0]['last_name'], 'Bob' )
-        self.assertEqual(teacher[0]['first_name1'], 'Peaches' )
-        self.assertEqual(teacher[0]['first_name1'], 'Peaches' )
+        self.assertEqual(teacher[0]['first_name'], 'Billy' )
+        self.assertEqual(teacher[0]['first_name1'], 'Midnight' )
 
-    self.assertEqual(teacher[0]['title'], 'How much is too much?')
+        self.assertEqual(teacher[0]['title'], 'How much is too much?')
         self.assertFalse(teacher[0].has_key('first_name2'))
 
