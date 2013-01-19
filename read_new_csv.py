@@ -37,7 +37,6 @@ class Entries2:
                 teachers_in_project.append(splitData[15])
             if splitData[18] not in teachers_in_project:
                 listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 18, 10, 13)
-
         return listByTeacher
 
     def findOtherTeachers(self, listByTeacher, current_line, teacher_column_number, next_first_name, last_first_name):
@@ -80,6 +79,8 @@ class TestEntriesClass(unittest.TestCase):
         self.assertEqual(teacher[0]['first_name1'], 'Peaches' )
         self.assertEqual(teacher[0]['title'], 'How much is too much?')
         self.assertFalse(teacher[0].has_key('first_name2'))
+        teacher = entries.find('Diane')
+        self.assertEqual(teacher[0]['last_name'], 'Gotts')
 
     def testProjectWithFourStudents(self):
         entries = Entries2()
