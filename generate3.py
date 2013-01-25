@@ -20,10 +20,10 @@ worddoc.Content.Font.Name = "Comic Sans MS"
 worddoc.Content.Paragraphs.WidowControl = True
 
 teachers = [["Heidi", "Hargesheimer", "(K)", "  Pink with Green Swirls"],
-	    ["Char", "Hanchak", "(K)", "  Pink"],
-            ["Maggi", "Idzikowski", "(K)", "  Yellow with Stripes"],
+	    ["Edie", "Linton", "(K)", "  Pink"],
+            ["Diane", "VanDorn", "(K)", "  Yellow with Stripes"],
             ["Tyra", "Johnston", "(1-2)", "  Orange"],
-            ["Edie", "Linton", "(1-2)", "  Red"],
+            ["Jennifer", "Thomas", "(1-2)", "  Red"],
             ["Jamie", "Martin", "(1-2)", "  Turquoise"],
             ["Tracey", "Metry", "(1-2)", "  Green"],
             ["Josh", "Tumolo", "(2-3)", "  Yellow"],
