@@ -82,6 +82,18 @@ class Entries2:
         projects = sorted(projects)
         return projects
 
+    def number_of_active_and_disabled_projects(self):
+        active = 0
+        disabled = 0
+        for line in self.data:
+            split_line = line.split(',')
+            if (len(split_line) == 21) and (split_line[20] == "No" ):
+                disabled+=1
+            else:
+                active+=1
+        return (active, disabled)
+
+
 class TestEntriesClass(unittest.TestCase):
     def testhookup(self):
         self.assertEqual(0,0)
@@ -148,4 +160,14 @@ class TestEntriesClass(unittest.TestCase):
                     "12/1/2012 20:39:32,Yes,Billy,Bob,Heidi,How much is too little?,Yes,,Karen,karen,2,Midnight,Gotts,Diane,EF,FL,Heidi,GF,HL,Heidi"]
         projects = entries.projects_resubmitted()
         self.assertEqual(projects, ["How much is too little?"])
+
+    def testNumberOfActiveProjects(self):
+        entries = Entries2()
+        entries.data = ["12/1/2012 20:39:32,No,Comet,Wright,Heidi,How much is too much?,Yes,,Karen,karen,2,Peaches,Wright,Heidi,AF,BL,Heidi,CF,DL,Heidi",
+                        "12/1/2012 20:39:32,No,Billy,Bob,Heidi,How much is too little?,Yes,,Karen,karen,2,Midnight,Gotts,Diane,EF,FL,Heidi,GF,HL,Heidi,No",
+                        "12/1/2012 20:39:32,Yes,Billy,Bob,Heidi,How much is too little?,Yes,,Karen,karen,2,Midnight,Gotts,Diane,EF,FL,Heidi,GF,HL,Heidi"]
+        active, disabled = entries.number_of_active_and_disabled_projects()
+        self.assertEqual(active, 2)
+        self.assertEqual(disabled, 1)
+
 
