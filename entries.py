@@ -8,8 +8,8 @@ class Entries2:
     def _processData(self):
         listByTeacher = {}
         for line in self.data:
-            print line
-            splitData = line.split(',')
+            #print line
+            splitData = self.splitEntry(line)
             entity = {}
             entity['title'] = splitData[5]
             entity['first_name'] = splitData[2]
@@ -59,8 +59,11 @@ class Entries2:
 
     def find(self, teacher_name):
             listByTeacher = self._processData()
-            projects = sorted(listByTeacher[teacher_name], key=lambda k: k['last_name'])  #*****
-            return projects
+            if listByTeacher.has_key(teacher_name) == False:
+                return {}
+            else:
+                projects = sorted(listByTeacher[teacher_name], key=lambda k: k['last_name'])  #*****
+                return projects
 
     def number_of_projects(self):
         return len(self.data)
@@ -92,6 +95,20 @@ class Entries2:
             else:
                 active+=1
         return (active, disabled)
+
+    def splitEntry(self, entry):
+        left_index = entry.find('"')
+        if left_index != -1:
+           right_index = entry.rfind('"')
+           left_side = entry[0:left_index]
+           right_side = entry[right_index+1:]
+           entry = left_side.split(',')[0:-1] + [entry[left_index:right_index+1]] + right_side.split(',')[1:]
+        else:
+           entry = entry.split(',')
+           if len(entry) not in [19,20,21]:
+               print len(entry), entry
+               raise ValueError('The entry is not the correct length')
+        return entry
 
 
 class TestEntriesClass(unittest.TestCase):
@@ -169,5 +186,17 @@ class TestEntriesClass(unittest.TestCase):
         active, disabled = entries.number_of_active_and_disabled_projects()
         self.assertEqual(active, 2)
         self.assertEqual(disabled, 1)
+
+    def testTitleContainsComas(self):
+        entries = Entries2()
+        data = "12/1/2012 20:39:32,No,Comet,Wright,Heidi,\"When, if possible, is much is too much?\",Yes,,Karen,karen,2,Peaches,Wright,Heidi,AF,BL,Heidi,CF,DL,Heidi"
+        data = entries.splitEntry(data)
+        print data
+        self.assertEqual(data,['12/1/2012 20:39:32', 'No', 'Comet', 'Wright', 'Heidi', '"When, if possible, is much is too much?"', 'Yes', '', 'Karen', 'karen', '2', 'Peaches', 'Wright', 'Heidi', 'AF', 'BL', 'Heidi', 'CF', 'DL', 'Heidi'] )
+        data = "12/1/2012 20:39:32,No,Comet,Wright,Heidi,\"When, \"\"if possible\"\", is much is too much?\",Yes,,Karen,karen,2,Peaches,Wright,Heidi,AF,BL,Heidi,CF,DL,Heidi"
+        print data
+        data = entries.splitEntry(data)
+        self.assertEqual(data[5], "\"When, \"\"if possible\"\", is much is too much?\"")
+
 
 
