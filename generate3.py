@@ -3,7 +3,7 @@
 #
 
 import win32com.client
-from projects import Entries
+import entries
 from read_csv import read_csv
 
 wordapp = win32com.client.Dispatch("Word.Application") # Create new Word Object
@@ -40,15 +40,18 @@ teachers = [["Heidi", "Hargesheimer", "(K)", "  Pink with Green Swirls"],
             ["Peter", "Ways", "(7-8)", "  Purple"],
             ["Mary", "Wigton", "(7-8)", "  Purple"]]
 
-entries = Entries()
-entries.values = read_csv("Ann Arbor Open Science Fair Entry Form - Sheet1 (5).csv")
+entries = entries.Entries2()
+spreadsheet = open("Monday.csv", 'r')
+entries.data = spreadsheet.readlines()[2:]
 
 count = 0
 for teacher in teachers:
         location = worddoc.Range()
         location.Paragraphs.Add()
         location.Collapse(0)
-        projects = entries.find({ "Teacher": teacher[0]})   ######
+        projects = entries.find(teacher[0])   ######
+        if projects == {}:
+            continue
         if 'last_name' in projects[0]:
           projects = sorted(projects, key=lambda k: k['last_name'])  #*****
         table = location.Tables.Add (location, len(projects)+1,2)
@@ -64,22 +67,25 @@ for teacher in teachers:
         for entry in projects:  ##########
             count += 1
             row += 1
-            table.Cell(row,1).LeftPadding = 16
+            #table.Cell(row,1).LeftPadding = 16
             if row%2 == 0:
               table.Rows(row).Shading.BackgroundPatternColorIndex = 16
-              name = entry["first_name"]+" "+entry["last_name"]    #########
-              if "first_name1" in entry:
+            name = entry["first_name"]+" "+entry["last_name"]    #########
+            if "first_name1" in entry:
                 name += "\n" + entry["first_name1"]+" "+entry["last_name1"]
-              if "first_name2" in entry:
+            if "first_name2" in entry:
                 name += "\n" + entry["first_name2"]+" "+entry["last_name2"]
-              if "first_name3" in entry:
+            if "first_name3" in entry:
                 name += "\n" + entry["first_name3"]+" "+entry["last_name3"]
-              table.Cell(row,1).Range.InsertAfter(name)
+            print "Here it is : ", name
+            table.Cell(row,1).Range.InsertAfter(name)
             table.Cell(row,1).Range.Paragraphs.SpaceAfter = 0
             table.Cell(row,1).TopPadding = 2
             table.Cell(row,1).BottomPadding = 2
             table.Cell(row,2).Range.InsertAfter(entry["title"])
             table.Cell(row,2).Range.Paragraphs.SpaceAfter = 0
+            table.Cell(row,2).TopPadding = 2
+            table.Cell(row,2).BottomPadding = 2
 
 
 print "count ", count
