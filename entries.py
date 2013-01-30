@@ -14,7 +14,15 @@ class Entries2:
             entity['title'] = splitData[5]
             entity['first_name'] = splitData[2]
             entity['last_name'] = splitData[3]
-            number_of_students = int(splitData[10])
+            number_of_students = splitData[10]
+            if number_of_students != '':
+                try:
+                    number_of_students = int(number_of_students)
+                except ValueError:
+                    print line
+                    raise
+            else:
+                number_of_students = 1
             if (number_of_students > 1):
                 entity['first_name1'] = splitData[11]
                 entity['last_name1'] = splitData[12]
@@ -35,16 +43,20 @@ class Entries2:
             if splitData[16] not in teachers_in_project:
                 listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 16, 11, 17)
                 teachers_in_project.append(splitData[16])
-            if splitData[19] not in teachers_in_project:
-                listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 19, 11, 14)
+            try:
+                if splitData[19] not in teachers_in_project:
+                    listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 19, 11, 14)
+            except IndexError:
+                print line
         return listByTeacher
 
     def findOtherTeachers(self, listByTeacher, current_line, teacher_column_number, next_first_name, last_first_name):
         next_teacher = current_line[teacher_column_number]
         entity = {}
-        if (next_teacher != ""):
+        last_name = current_line[teacher_column_number-1]
+        if (last_name != "") and (next_teacher != ""):
                 entity['first_name'] = current_line[teacher_column_number-2]
-                entity['last_name'] = current_line[teacher_column_number-1]
+                entity['last_name'] = last_name
                 entity['first_name1'] = current_line[2]
                 entity['last_name1'] = current_line[3]
                 entity['first_name2'] = current_line[next_first_name]
