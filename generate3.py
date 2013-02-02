@@ -41,8 +41,8 @@ teachers = [["Heidi", "Hargesheimer", "(K)", "  Pink with Green Swirls"],
             ["Mary", "Wigton", "(7-8)", "  Purple"]]
 
 entries = entries.Entries2()
-spreadsheet = open("Monday.csv", 'r')
-entries.data = spreadsheet.readlines()[2:]
+spreadsheet = open("cleaned4_final.csv", 'r')
+entries.data = spreadsheet.readlines()[1:]
 
 count = 0
 for teacher in teachers:
@@ -71,13 +71,12 @@ for teacher in teachers:
             if row%2 == 0:
               table.Rows(row).Shading.BackgroundPatternColorIndex = 16
             name = entry["first_name"]+" "+entry["last_name"]    #########
-            if "first_name1" in entry:
+            if "first_name1" in entry and entry["first_name1"] != "":
                 name += "\n" + entry["first_name1"]+" "+entry["last_name1"]
-            if "first_name2" in entry:
+            if "first_name2" in entry and entry["first_name2"] != "":
                 name += "\n" + entry["first_name2"]+" "+entry["last_name2"]
-            if "first_name3" in entry:
+            if "first_name3" in entry and entry["first_name3"] != "":
                 name += "\n" + entry["first_name3"]+" "+entry["last_name3"]
-            print "Here it is : ", name
             table.Cell(row,1).Range.InsertAfter(name)
             table.Cell(row,1).Range.Paragraphs.SpaceAfter = 0
             table.Cell(row,1).TopPadding = 2
