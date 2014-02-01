@@ -41,7 +41,7 @@ teachers = [["Heidi", "Hargesheimer", "(K)", "  Pink with Green Swirls"],
             ["Mary", "Wigton", "(7-8)", "  Purple"]]
 
 entries = entries.Entries2()
-spreadsheet = open("cleaned4_final.csv", 'r')
+spreadsheet = open("sat2014b.csv", 'r')
 entries.data = spreadsheet.readlines()[1:]
 
 count = 0

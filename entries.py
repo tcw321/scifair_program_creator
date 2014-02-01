@@ -8,62 +8,56 @@ class Entries2:
     def _processData(self):
         listByTeacher = {}
         for line in self.data:
-            #print line
+            number_of_students = 0
+            print line
             splitData = self.splitEntry(line)
             entity = {}
-            entity['title'] = splitData[5]
-            entity['first_name'] = splitData[2]
-            entity['last_name'] = splitData[3]
-            number_of_students = splitData[10]
-            if number_of_students != '':
-                try:
-                    number_of_students = int(number_of_students)
-                except ValueError:
-                    print line
-                    raise
-            else:
+            entity['title'] = splitData[10]
+            entity['first_name'] = splitData[1].strip()
+            entity['last_name'] = splitData[2].strip()
+            entity['first_name1'] = splitData[3].strip()
+            entity['last_name1'] = splitData[4].strip()
+            if entity['last_name1'] != '':
                 number_of_students = 1
-            if (number_of_students > 1):
-                entity['first_name1'] = splitData[11]
-                entity['last_name1'] = splitData[12]
-            if (number_of_students > 2):
-                entity['last_name2'] = splitData[15]
-                entity['first_name2'] = splitData[14]
-            if (number_of_students == 4):
-                entity['first_name3'] = splitData[17]
-                entity['last_name3'] = splitData[16]
-            if listByTeacher.has_key(splitData[4]) == False:
-                listByTeacher[splitData[4]] = []
-            listByTeacher[splitData[4]].append(entity)
+            entity['first_name2'] = splitData[5].strip()
+            entity['last_name2'] = splitData[6].strip()
+            if entity['last_name2'] != '':
+                number_of_students = 2
+            if listByTeacher.has_key(splitData[11]) == False:
+                listByTeacher[splitData[11]] = []
+            listByTeacher[splitData[11]].append(entity)
             teachers_in_project =[]
-            teachers_in_project.append(splitData[4])
-            if splitData[13] not in teachers_in_project:
-               listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 13, 14,17 )
-               teachers_in_project.append(splitData[13])
-            if splitData[16] not in teachers_in_project:
-                listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 16, 11, 17)
-                teachers_in_project.append(splitData[16])
-            try:
-                if splitData[19] not in teachers_in_project:
-                    listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 19, 11, 14)
-            except IndexError:
-                print line
+            teachers_in_project.append(splitData[11])
+            if number_of_students > 1:
+                if splitData[17] != '':
+                   if splitData[17] not in teachers_in_project:
+                      listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 17,3,4,1,2 )
+                      teachers_in_project.append(splitData[17])
+            if number_of_students > 2:
+                if splitData[18] != '':
+                    if splitData[18] not in teachers_in_project:
+                        listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 18,5,6,1,2,3,4)
+                        teachers_in_project.append(splitData[18])
+        #            try:
+#                if splitData[19] not in teachers_in_project:
+#                    listByTeacher = self.findOtherTeachers(listByTeacher, splitData, 19, 11, 14)
+#            except IndexError:
+#                print line
         return listByTeacher
 
-    def findOtherTeachers(self, listByTeacher, current_line, teacher_column_number, next_first_name, last_first_name):
+    def findOtherTeachers(self, listByTeacher, current_line, teacher_column_number, first_name_num, last_name_num,first_name2_num, last_name2_num, first_name3_num=0, last_name3_num=0):
         next_teacher = current_line[teacher_column_number]
         entity = {}
         last_name = current_line[teacher_column_number-1]
         if (last_name != "") and (next_teacher != ""):
-                entity['first_name'] = current_line[teacher_column_number-2]
-                entity['last_name'] = last_name
-                entity['first_name1'] = current_line[2]
-                entity['last_name1'] = current_line[3]
-                entity['first_name2'] = current_line[next_first_name]
-                entity['last_name2'] = current_line[next_first_name+1]
-                entity['first_name3'] = current_line[last_first_name]
-                entity['last_name3'] = current_line[last_first_name+1]
-                entity['title'] = current_line[5]
+                entity['first_name'] = current_line[first_name_num]
+                entity['last_name'] = current_line[last_name_num]
+                entity['first_name1'] = current_line[first_name2_num]
+                entity['last_name1'] = current_line[last_name2_num]
+                if first_name3_num != 0:
+                    entity['first_name2'] = current_line[first_name3_num]
+                    entity['last_name2'] = current_line[last_name3_num]
+                entity['title'] = current_line[10]
                 if (listByTeacher.has_key(next_teacher) == False):
                     listByTeacher[next_teacher] = []
                 listByTeacher[next_teacher].append(entity)
@@ -84,7 +78,7 @@ class Entries2:
         projects = []
         for line in self.data:
             split_line = line.split(',')
-            projects.append(split_line[5])
+            projects.append(split_line[10])
         projects = sorted(projects)
         return projects
 
@@ -117,9 +111,9 @@ class Entries2:
            entry = left_side.split(',')[0:-1] + [entry[left_index:right_index+1]] + right_side.split(',')[1:]
         else:
            entry = entry.split(',')
-           if len(entry) not in [19,20,21]:
-               print len(entry), entry
-               raise ValueError('The entry is not the correct length')
+           #if len(entry) not in [19,20,21]:
+           #    print len(entry), entry
+           #    raise ValueError('The entry is not the correct length')
         return entry
 
 
