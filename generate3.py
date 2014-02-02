@@ -68,8 +68,8 @@ for teacher in teachers:
             count += 1
             row += 1
             #table.Cell(row,1).LeftPadding = 16
-            if row%2 == 0:
-              table.Rows(row).Shading.BackgroundPatternColorIndex = 16
+            table.Rows(row).Borders.OutsideLineStyle = True
+            table.Rows(row).Borders.OutsideLineWidth = 8
             name = entry["first_name"]+" "+entry["last_name"]    #########
             if "first_name1" in entry and entry["first_name1"] != "":
                 name += "\n" + entry["first_name1"]+" "+entry["last_name1"]

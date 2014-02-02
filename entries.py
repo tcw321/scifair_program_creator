@@ -8,7 +8,7 @@ class Entries2:
     def _processData(self):
         listByTeacher = {}
         for line in self.data:
-            number_of_students = 0
+            number_of_students = 1
             print line
             splitData = self.splitEntry(line)
             entity = {}
@@ -18,11 +18,12 @@ class Entries2:
             entity['first_name1'] = splitData[3].strip()
             entity['last_name1'] = splitData[4].strip()
             if entity['last_name1'] != '':
-                number_of_students = 1
+                number_of_students = 2
             entity['first_name2'] = splitData[5].strip()
             entity['last_name2'] = splitData[6].strip()
             if entity['last_name2'] != '':
-                number_of_students = 2
+                number_of_students = 3
+            print number_of_students
             if listByTeacher.has_key(splitData[11]) == False:
                 listByTeacher[splitData[11]] = []
             listByTeacher[splitData[11]].append(entity)
@@ -48,7 +49,7 @@ class Entries2:
     def findOtherTeachers(self, listByTeacher, current_line, teacher_column_number, first_name_num, last_name_num,first_name2_num, last_name2_num, first_name3_num=0, last_name3_num=0):
         next_teacher = current_line[teacher_column_number]
         entity = {}
-        last_name = current_line[teacher_column_number-1]
+        last_name = current_line[last_name_num]
         if (last_name != "") and (next_teacher != ""):
                 entity['first_name'] = current_line[first_name_num]
                 entity['last_name'] = current_line[last_name_num]
