@@ -23,7 +23,7 @@ class Entries2:
             entity['last_name2'] = splitData[6].strip()
             if entity['last_name2'] != '':
                 number_of_students = 3
-            print number_of_students
+            print(number_of_students)
             if listByTeacher.has_key(splitData[11]) == False:
                 listByTeacher[splitData[11]] = []
             listByTeacher[splitData[11]].append(entity)
