@@ -10,21 +10,21 @@ def read_csv(names):
     headers[-1] = headers[-1].rstrip()
     entries = {}
     for header in headers:
-	entries[header] = []
+        entries[header] = []
     for nextline in csvlines[1:]:
-	entry = nextline.split(',')
-	if len(entry) > 1:
-	  for col in range(len(entry)):
-	    entries[headers[col]].append(entry[col])
-	  for col in range(len(entry), len(headers)):
-	    empty_string = ''
-	    entries[headers[col]].append(empty_string)
+        entry = nextline.split(',')
+    if len(entry) > 1:
+        for col in range(len(entry)):
+            entries[headers[col]].append(entry[col])
+        for col in range(len(entry), len(headers)):
+            empty_string = ''
+            entries[headers[col]].append(empty_string)
     return entries
     
     
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-	print 'Usage:  read_csv.py filename'
+        print('Usage:  read_csv.py filename')
     else:
         t = read_csv(sys.argv[1])
-	print t['Teacher']
+        print(t['Teacher'])

@@ -3,8 +3,7 @@
 #
 
 import win32com.client
-import entries
-from read_csv import read_csv
+from read_tab_delimited_file import generateEntries
 
 wordapp = win32com.client.Dispatch("Word.Application") # Create new Word Object
 wordapp.Visible = 1 # Word Application should`t be visible
@@ -40,20 +39,19 @@ teachers = [["Heidi", "Hargesheimer", "(K)", "  Pink with Green Swirls"],
             ["Peter", "Ways", "(7-8)", "  Purple"],
             ["Mary", "Wigton", "(7-8)", "  Purple"]]
 
-entries = entries.Entries2()
-spreadsheet = open("sat2014b.csv", 'r')
-entries.data = spreadsheet.readlines()[1:]
+spreadsheet = open("2015testform1.tsv", 'r')
+entries = generateEntries(spreadsheet.readlines())
 
 count = 0
 for teacher in teachers:
         location = worddoc.Range()
         location.Paragraphs.Add()
         location.Collapse(0)
-        projects = entries.find(teacher[0])   ######
+        projects = entries[teacher[0]]   ######
         if projects == {}:
             continue
-        if 'last_name' in projects[0]:
-          projects = sorted(projects, key=lambda k: k['last_name'])  #*****
+        #if 'last_name' in projects[0]:
+        #  projects = sorted(projects, key=lambda k: k['last_name'])  #*****
         table = location.Tables.Add (location, len(projects)+1,2)
         table.Rows(1).HeadingFormat = True
 #        table.AutoFormat(16)
@@ -70,24 +68,24 @@ for teacher in teachers:
             #table.Cell(row,1).LeftPadding = 16
             table.Rows(row).Borders.OutsideLineStyle = True
             table.Rows(row).Borders.OutsideLineWidth = 8
-            name = entry["first_name"]+" "+entry["last_name"]    #########
-            if "first_name1" in entry and entry["first_name1"] != "":
-                name += "\n" + entry["first_name1"]+" "+entry["last_name1"]
-            if "first_name2" in entry and entry["first_name2"] != "":
-                name += "\n" + entry["first_name2"]+" "+entry["last_name2"]
-            if "first_name3" in entry and entry["first_name3"] != "":
-                name += "\n" + entry["first_name3"]+" "+entry["last_name3"]
+            name = entry[1][0]+" "+entry[1][1]    #########
+            if len(entry) > 2 and entry[2][0] != "":
+                name += "\n" + entry[2][0]+" "+entry[2][1]
+            if len(entry) > 3 and entry[3][0] != "":
+                name += "\n" + entry[3][0]+" "+entry[3][1]
+            if len(entry) > 4 and entry[4][0] != "":
+                name += "\n" + entry[4][0]+" "+entry[4][1]
             table.Cell(row,1).Range.InsertAfter(name)
             table.Cell(row,1).Range.Paragraphs.SpaceAfter = 0
             table.Cell(row,1).TopPadding = 2
             table.Cell(row,1).BottomPadding = 2
-            table.Cell(row,2).Range.InsertAfter(entry["title"])
+            table.Cell(row,2).Range.InsertAfter(entry[0])
             table.Cell(row,2).Range.Paragraphs.SpaceAfter = 0
             table.Cell(row,2).TopPadding = 2
             table.Cell(row,2).BottomPadding = 2
 
 
-print "count ", count
+print("count ", count)
 worddoc.Content.MoveEnd
 worddoc.Close() # Close the Word Document (a save-Dialog pops up)
 wordapp.Quit() # Close the Word Applicati

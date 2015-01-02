@@ -9,7 +9,7 @@ class Entries2:
         listByTeacher = {}
         for line in self.data:
             number_of_students = 1
-            print line
+            print(line)
             splitData = self.splitEntry(line)
             entity = {}
             entity['title'] = splitData[10]
@@ -198,10 +198,10 @@ class TestEntriesClass(unittest.TestCase):
         entries = Entries2()
         data = "12/1/2012 20:39:32,No,Comet,Wright,Heidi,\"When, if possible, is much is too much?\",Yes,,Karen,karen,2,Peaches,Wright,Heidi,AF,BL,Heidi,CF,DL,Heidi"
         data = entries.splitEntry(data)
-        print data
+        print(data)
         self.assertEqual(data,['12/1/2012 20:39:32', 'No', 'Comet', 'Wright', 'Heidi', '"When, if possible, is much is too much?"', 'Yes', '', 'Karen', 'karen', '2', 'Peaches', 'Wright', 'Heidi', 'AF', 'BL', 'Heidi', 'CF', 'DL', 'Heidi'] )
         data = "12/1/2012 20:39:32,No,Comet,Wright,Heidi,\"When, \"\"if possible\"\", is much is too much?\",Yes,,Karen,karen,2,Peaches,Wright,Heidi,AF,BL,Heidi,CF,DL,Heidi"
-        print data
+        print(data)
         data = entries.splitEntry(data)
         self.assertEqual(data[5], "\"When, \"\"if possible\"\", is much is too much?\"")
 

@@ -2,13 +2,17 @@ __author__ = 'tcw321'
 
 import unittest
 
-spreadsheet = open("entries.tsv", 'r')
+#spreadsheet = open("entries.tsv", 'r')
 
 def generateEntries(lines):
     headers = lines[0].split('\t')
     entries = []
     for line in lines[1:]:
-        entries.append(line.split('\t'))
+        line = line.rstrip()
+        print(line)
+        delimited_line = line.split('\t')
+        print("Line size", len(delimited_line))
+        entries.append(delimited_line)
 
     good_indices = [1,2,3,4,9,10,11,12,13,14,15,16,17,18]
     teachers = ['Heidi', 'Edie', 'Diane', 'Jennifer', 'Tyra', 'Jamie', 'Tracey', 'Josh', 'Carl', 'Denise', 'Bette', 'Chad', 'Ko', 'Mike', 'Rick', 'Leslie', 'Peter', 'Adam', 'Mary', 'Aina']
@@ -20,6 +24,10 @@ def generateEntries(lines):
     for teacher in teachers:
         program[teacher] = []
     for n in range(len(entries)):
+        if len(entries[n]) < 19:
+            for k in range(19 - len(entries[n])):
+                entries[n].append("")
+        print("Size: ", len(entries[n]))
         entry_array = [entries[n][i] for i in good_indices ]
         if entry_array[-1] == '\n':
             entry_array[-1] = ''
@@ -51,7 +59,7 @@ def generateEntries(lines):
         if entry['teacher4'] != '' and entry['teacher4'] not in current_teachers:
             entry['studentfirst1'], entry['studentfirst4'] = entry['studentfirst4'], entry['studentfirst1']
             entry['studentlast1'], entry['studentlast4'] = entry['studentlast4'], entry['studentlast1']
-            program[entry['teacher4']].append([[entry[entry['name'],'studentfirst1'], entry['studentlast1']],
+            program[entry['teacher4']].append([[entry['name'], entry['studentfirst1'], entry['studentlast1']],
                                           [entry['studentfirst2'], entry['studentlast2']],
                                           [entry['studentfirst3'], entry['studentlast3']],
                                           [entry['studentfirst4'], entry['studentlast4']]])
