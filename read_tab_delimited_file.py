@@ -36,33 +36,36 @@ def generateEntries(lines):
             entry[header_titles[i]] = entry_array[i]
         print(entry)
         current_teachers = [entry['teacher1']]
-        program[entry['teacher1']].append([entry['name'], [entry['studentfirst1'], entry['studentlast1']],
+        program[entry['teacher1']].append([entry['name'], [[entry['studentfirst1'], entry['studentlast1']],
                                           [entry['studentfirst2'], entry['studentlast2']],
                                           [entry['studentfirst3'], entry['studentlast3']],
-                                          [entry['studentfirst4'], entry['studentlast4']]])
+                                          [entry['studentfirst4'], entry['studentlast4']]]])
         if entry['teacher2'] != '' and entry['teacher2'] not in current_teachers:
             entry['studentfirst1'], entry['studentfirst2'] = entry['studentfirst2'], entry['studentfirst1']
             entry['studentlast1'], entry['studentlast2'] = entry['studentlast2'], entry['studentlast1']
-            program[entry['teacher2']].append([entry['name'],[entry['studentfirst1'], entry['studentlast1']],
+            program[entry['teacher2']].append([entry['name'],[[entry['studentfirst1'], entry['studentlast1']],
                                           [entry['studentfirst2'], entry['studentlast2']],
                                           [entry['studentfirst3'], entry['studentlast3']],
-                                          [entry['studentfirst4'], entry['studentlast4']]])
+                                          [entry['studentfirst4'], entry['studentlast4']]]])
             current_teachers.append(entry['teacher2'])
         if entry['teacher3'] != '' and entry['teacher3'] not in current_teachers:
             entry['studentfirst1'], entry['studentfirst3'] = entry['studentfirst3'], entry['studentfirst1']
             entry['studentlast1'], entry['studentlast3'] = entry['studentlast3'], entry['studentlast1']
-            program[entry['teacher3']].append([entry['name'],[entry['studentfirst1'], entry['studentlast1']],
+            program[entry['teacher3']].append([entry['name'],[[entry['studentfirst1'], entry['studentlast1']],
                                           [entry['studentfirst2'], entry['studentlast2']],
                                           [entry['studentfirst3'], entry['studentlast3']],
-                                          [entry['studentfirst4'], entry['studentlast4']]])
+                                          [entry['studentfirst4'], entry['studentlast4']]]])
             current_teachers.append(entry['teacher3'])
         if entry['teacher4'] != '' and entry['teacher4'] not in current_teachers:
             entry['studentfirst1'], entry['studentfirst4'] = entry['studentfirst4'], entry['studentfirst1']
             entry['studentlast1'], entry['studentlast4'] = entry['studentlast4'], entry['studentlast1']
-            program[entry['teacher4']].append([[entry['name'], entry['studentfirst1'], entry['studentlast1']],
+            program[entry['teacher4']].append([entry['name'], [[entry['studentfirst1'], entry['studentlast1']],
                                           [entry['studentfirst2'], entry['studentlast2']],
                                           [entry['studentfirst3'], entry['studentlast3']],
-                                          [entry['studentfirst4'], entry['studentlast4']]])
+                                          [entry['studentfirst4'], entry['studentlast4']]]])
+    for teacher_projects in program.items():
+        program[teacher_projects[0]] = sorted(teacher_projects[1], key=lambda student: student[1][0][1])
+
     return program
 
 class TestGenerateEntries(unittest.TestCase):
@@ -74,7 +77,7 @@ class TestGenerateEntries(unittest.TestCase):
         program = generateEntries(entry)
         self.assertEqual(program,
                          {'Jennifer': [], 'Carl': [], 'Edie': [], 'Mike': [], 'Adam': [], 'Mary': [],
-                          'Bette': [['name',['studentfirst', 'studentlast'], ['', ''], ['', ''], ['', '']]],
+                          'Bette': [['name',[['studentfirst', 'studentlast'], ['', ''], ['', ''], ['', '']]]],
                           'Aina': [], 'Heidi': [], 'Rick': [], 'Josh': [], 'Tyra': [], 'Peter': [],
                           'Ko': [], 'Chad': [], 'Tracey': [], 'Jamie': [], 'Denise': [], 'Diane': [], 'Leslie': []})
 
@@ -83,7 +86,7 @@ class TestGenerateEntries(unittest.TestCase):
         program = generateEntries(entry)
         self.assertEqual(program,
                          {'Jennifer': [], 'Carl': [], 'Edie': [], 'Mike': [], 'Adam': [], 'Mary': [],
-                          'Bette': [['name', ['studentfirst', 'studentlast'], ['Bob', 'Smith'], ['', ''], ['', '']]],
+                          'Bette': [['name', [['studentfirst', 'studentlast'], ['Bob', 'Smith'], ['', ''], ['', '']]]],
                           'Aina': [], 'Heidi': [], 'Rick': [], 'Josh': [], 'Tyra': [], 'Peter': [],
                           'Ko': [], 'Chad': [], 'Tracey': [], 'Jamie': [], 'Denise': [], 'Diane': [], 'Leslie': []})
 
@@ -92,8 +95,8 @@ class TestGenerateEntries(unittest.TestCase):
         program = generateEntries(entry)
         self.assertEqual(program,
                          {'Jennifer': [], 'Carl': [], 'Edie': [], 'Mike': [], 'Adam': [], 'Mary': [],
-                          'Bette': [['name',['studentfirst', 'studentlast'], ['Bob', 'Smith'], ['', ''], ['', '']]],
-                          'Aina': [], 'Heidi': [], 'Rick': [], 'Josh': [['name', ['Bob', 'Smith'], ['studentfirst', 'studentlast'], ['', ''], ['', '']]], 'Tyra': [], 'Peter': [],
+                          'Bette': [['name',[['studentfirst', 'studentlast'], ['Bob', 'Smith'], ['', ''], ['', '']]]],
+                          'Aina': [], 'Heidi': [], 'Rick': [], 'Josh': [['name', [['Bob', 'Smith'], ['studentfirst', 'studentlast'], ['', ''], ['', '']]]], 'Tyra': [], 'Peter': [],
                           'Ko': [], 'Chad': [], 'Tracey': [], 'Jamie': [], 'Denise': [], 'Diane': [], 'Leslie': []})
 
     def testTwoProjects(self):
@@ -103,9 +106,9 @@ class TestGenerateEntries(unittest.TestCase):
         self.maxDiff = None
         self.assertEqual(program,
                          {'Jennifer': [], 'Carl': [], 'Edie': [], 'Mike': [], 'Adam': [], 'Mary': [],
-                          'Bette': [['name',['studentfirst', 'studentlast'], ['Bob', 'Smith'], ['Tom', 'Doe'], ['', '']]],
-                          'Aina': [], 'Heidi': [], 'Rick': [], 'Josh': [['name',['Bob', 'Smith'], ['studentfirst', 'studentlast'], ['Tom', 'Doe'], ['', '']]], 'Tyra': [], 'Peter': [],
-                          'Ko': [], 'Chad': [], 'Tracey': [], 'Jamie': [['Volcano!', ['Jon', 'Anderson'], ['', ''], ['', ''], ['', '']]], 'Denise': [], 'Diane': [], 'Leslie': [['name',['Tom', 'Doe'], ['studentfirst', 'studentlast'], ['Bob', 'Smith'], ['', '']]]})
+                          'Bette': [['name',[['studentfirst', 'studentlast'], ['Bob', 'Smith'], ['Tom', 'Doe'], ['', '']]]],
+                          'Aina': [], 'Heidi': [], 'Rick': [], 'Josh': [['name',[['Bob', 'Smith'], ['studentfirst', 'studentlast'], ['Tom', 'Doe'], ['', '']]]], 'Tyra': [], 'Peter': [],
+                          'Ko': [], 'Chad': [], 'Tracey': [], 'Jamie': [['Volcano!', [['Jon', 'Anderson'], ['', ''], ['', ''], ['', '']]]], 'Denise': [], 'Diane': [], 'Leslie': [['name',[['Tom', 'Doe'], ['studentfirst', 'studentlast'], ['Bob', 'Smith'], ['', '']]]]})
 
 
 if __name__ == '__main__':

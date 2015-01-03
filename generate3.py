@@ -68,13 +68,13 @@ for teacher in teachers:
             #table.Cell(row,1).LeftPadding = 16
             table.Rows(row).Borders.OutsideLineStyle = True
             table.Rows(row).Borders.OutsideLineWidth = 8
-            name = entry[1][0]+" "+entry[1][1]    #########
-            if len(entry) > 2 and entry[2][0] != "":
-                name += "\n" + entry[2][0]+" "+entry[2][1]
-            if len(entry) > 3 and entry[3][0] != "":
-                name += "\n" + entry[3][0]+" "+entry[3][1]
-            if len(entry) > 4 and entry[4][0] != "":
-                name += "\n" + entry[4][0]+" "+entry[4][1]
+            name = entry[1][0][0]+" "+entry[1][0][1]    #########
+            if len(entry[1]) > 2 and entry[1][1][0] != "":
+                name += "\n" + entry[1][1][0]+" "+entry[1][1][1]
+            if len(entry[1]) > 3 and entry[1][2][0] != "":
+                name += "\n" + entry[1][2][0]+" "+entry[1][2][1]
+            if len(entry[1]) > 4 and entry[1][3][0] != "":
+                name += "\n" + entry[1][3][0]+" "+entry[1][3][1]
             table.Cell(row,1).Range.InsertAfter(name)
             table.Cell(row,1).Range.Paragraphs.SpaceAfter = 0
             table.Cell(row,1).TopPadding = 2
